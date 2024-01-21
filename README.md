@@ -3,3 +3,9 @@
 
 ## Overview
 This is Git tool for UniPro member.This helps write commit message.
+
+## Install
+Move git-unipro file to directory which path goes through.
+
+## Use
+1. Type `git unipro init`
