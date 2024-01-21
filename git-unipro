@@ -1,0 +1,77 @@
+#!/bin/bash
+echo "UniProject Git Tool"
+
+subcommand="$1"
+shift
+
+msg_hook="#!/bin/bash\n
+COMMIT_MSG=\$1\n
+
+prefix=\$(head -n 1 \$COMMIT_MSG | awk '{ print \$1 }')\n
+emoji=\"\"\n
+case \$prefix in\n
+    \"fix:\")\n
+        emoji=\":bug:\"\n
+        ;;\n
+    \"feat:\")\n
+        emoji=\":sparkles:\"\n
+        ;;\n
+    \"hammer:\")\n
+        emoji=\":hammer:\"\n
+        ;;\n
+    \"delete:\")\n
+        emoji=\":zap:\"\n
+        ;;\n
+    \"uppkg:\")\n
+        emoji=\":arrow_up:\"\n
+        ;;\n
+    \"docs:\")\n
+        emoji=\":memo:\"\n
+        ;;\n
+    \"style:\")\n
+        emoji=\":art:\"\n
+        ;;\n
+    \"refactor:\")\n
+        emoji=\":recycle:\"\n
+        ;;\n
+    \"chore:\")\n
+        emoji=\":hammer:\"\n
+        ;;\n
+    \"tag:\")\n
+        emoji=\":bookmark:\"\n
+        ;;\n
+    \"typo:\")\n
+        emoji=\":pencil2:\"\n
+        ;;\n
+    *)\n
+        echo \"The specified prefix is undefined.\";\n
+		exit 1\n
+		;;\n
+esac\n
+\n
+sed -i \"s/\$prefix/\$emoji/\" \$COMMIT_MSG\n
+\n
+echo \$prefix \n
+exit 0"
+
+msg_template="# ==== Format ====\n# \${prefix}: 実装の概要を50文字以下で記述\n# ex)fix:ユーザー情報にnameが足りないのでnameを追加\n#\n# コミット本文(50文字で収まらない場合はこちらに)...\n#一行目の上に#をつけずに入力してください。\n\n# ==== Prefix ====\n# feat     新規機能、新規ファイル追加\n# delete   ファイル削除\n# fix      バグ修正\n# style    空白、セミコロン、行、コーディングフォーマットなどの修正\n# refactor リファクタリング\n# uppkg    依存関係のアップグレード\n# chore    ビルド、補助ツール、ライブラリ関連、開発環境変更、更新等\n# docs     ドキュメントのみ修正\n# tag      タグの作成\n# typo     タイポ\n\n# ==== Rules ====\n# 1. コミット本文を記述する場合は、概要とコミット本文の間に空行1行あける\n# 2. 概要は50文字以下で記述する\n# 3. 概要の末尾はピリオドで終わらない\n# 4. 概要は命令法で記述する\n# 5. 本文は72文字で改行する\n# 6. 本文ではhowではなくwhatとwhyを記述する\n"
+
+case $subcommand in
+    i | init)
+        echo "Installing..."
+        echo "Creating .githooks Directory..."
+        mkdir .githooks
+        echo "Copying hooks files..."
+        echo -e $msg_hook > ./.githooks/commit-msg
+        echo "Copying .gitmessage file..."
+        echo -e $msg_template > .gitmessage
+        echo "Config git..."
+        git config --local core.hooksPath .githooks
+        git config commit.template .gitmessage
+        ;;
+    --help)
+        ;;
+    *)
+        echo "エラー: 無効なオプション、コマンドです。"
+        ;;
+esac
