@@ -70,7 +70,7 @@ case $subcommand in
         echo -e $colab_script > colab_script.sh
         echo "Config git..."
         git config --local core.hooksPath .githooks
-        git config commit.template .gitmessage
+        git config --local commit.template .gitmessage
         ;;
     --help)
         ;;
