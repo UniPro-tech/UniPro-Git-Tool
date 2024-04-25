@@ -106,6 +106,7 @@ case $subcommand in
         echo "Configuring permission..."
         sudo chmod 777 ./colab_script.sh
         sudo chmod 777 ./.githooks/commit-msg
+        ln -s .githooks/commit-msg .git/hooks/commit-msg
         ;;
     --help)
         echo "Usage: ./script.sh init - Initialize Git hooks and templates"
