@@ -53,7 +53,7 @@ case \$prefix in
         ;;
 esac
 
-sed -i \"1s/^\$prefix/\$emoji/\" \"\$COMMIT_MSG\"
+awk -v prefix=\"\$prefix\" -v emoji=\"\$emoji\" 'NR==1 { sub("^" prefix, emoji); print } NR!=1' \"\$COMMIT_MSG\" > tmpfile && mv tmpfile \"\$COMMIT_MSG\"
 
 echo \$prefix 
 exit 0"
@@ -86,7 +86,6 @@ msg_template="# ==== Format ====
 # 5. 本文は72文字で改行する
 # 6. 本文ではhowではなくwhatとwhyを記述する"
 
-
 colab_script="git config --local core.hooksPath ./.githooks
 git config --local commit.template .gitmessage
 echo \"Success!!\""
@@ -105,9 +104,8 @@ case $subcommand in
         echo "Configuring git..."
         eval "$colab_script"
         echo "Configuring permission..."
-        sudo chmod 777 ./colab_script.sh
-        sudo chmod 777 ./.githooks/commit-msg
-        ln -s .githooks/commit-msg .git/hooks/commit-msg
+        chmod +x colab_script.sh
+        chmod +x ./.githooks/commit-msg
         ;;
     --help)
         echo "Usage: ./script.sh init - Initialize Git hooks and templates"
