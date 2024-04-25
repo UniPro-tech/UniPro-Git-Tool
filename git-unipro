@@ -86,7 +86,7 @@ msg_template="# ==== Format ====
 # 5. 本文は72文字で改行する
 # 6. 本文ではhowではなくwhatとwhyを記述する"
 
-colab_script="git config --local core.hooksPath .githooks
+colab_script="git config --local core.hooksPath ./.githooks
 git config --local commit.template .gitmessage
 echo \"Success!!\""
 
