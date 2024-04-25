@@ -46,7 +46,7 @@ case $prefix in
         ;;
 esac
 
-sed -i "1s/^\$prefix/\$emoji/" "\$COMMIT_MSG"
+sed -i '1s/^'"$prefix"'/'"$emoji"'/' "$COMMIT_MSG"
 
 echo $prefix 
 exit 0
