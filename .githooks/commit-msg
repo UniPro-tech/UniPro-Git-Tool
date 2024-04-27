@@ -48,5 +48,5 @@ esac
 
 awk -v prefix="$prefix" -v emoji="$emoji" 'NR==1 { sub("^" prefix, emoji); print } NR!=1' "$COMMIT_MSG" > tmpfile && mv tmpfile "$COMMIT_MSG"
 
-echo $prefix
+echo $prefix 
 exit 0
