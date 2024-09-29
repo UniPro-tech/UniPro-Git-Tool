@@ -17,12 +17,6 @@ case \$prefix in
     \"feat:\")
         emoji=\":sparkles:\"
         ;;
-    \"hammer:\")
-        emoji=\":hammer:\"
-        ;;
-    \"delete:\")
-        emoji=\":zap:\"
-        ;;
     \"uppkg:\")
         emoji=\":arrow_up:\"
         ;;
@@ -40,12 +34,6 @@ case \$prefix in
         ;;
     \"tag:\")
         emoji=\":bookmark:\"
-        ;;
-    \"typo:\")
-        emoji=\":pencil2:\"
-        ;;
-    \"revert:\" | \"Revert\")
-        emoji=\":rewind:\"
         ;;
     *)
         echo \"The specified prefix is undefined.\"
@@ -67,7 +55,6 @@ msg_template="# ==== Format ====
 #
 # ==== Prefix ====
 # feat     新規機能、新規ファイル追加
-# delete   ファイル削除
 # fix      バグ修正
 # style    空白、セミコロン、行、コーディングフォーマットなどの修正
 # refactor リファクタリング
@@ -75,8 +62,6 @@ msg_template="# ==== Format ====
 # chore    ビルド、補助ツール、ライブラリ関連、開発環境変更、更新等
 # docs     ドキュメントのみ修正
 # tag      タグの作成
-# typo     タイポ
-# revert コミットの打ち消し
 #
 # ==== Rules ====
 # 1. コミット本文を記述する場合は、概要とコミット本文の間に空行1行あける
